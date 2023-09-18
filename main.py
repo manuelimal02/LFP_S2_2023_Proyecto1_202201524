@@ -13,40 +13,34 @@ class ventana_principal:
         #Variable Analizado
         self.archivo_seleccionado=False
         self.archivo_analizado=False
-
         #Ventana Pricipal
         self.root = root
         self.root.title("PROYECTO 1 - CARLOS MANUEL LIMA Y LIMA")
         self.root.geometry("1000x600")
         self.root.configure(bg='#0799b6')
         self.root.resizable(0,0)
-
         #Frame Botones Opciones
         opciones_frame=tk.Frame(root,bg='#114c5f')
-
         boton_archivo=tk.Menubutton(opciones_frame, text="Archivo", bg='#4a6eb0', font=("Verdana", 13), bd=0, fg='white', activeforeground='black')        
         boton_archivo.place(x=50, y=10, width=150)
-
+        #Opciones
         opciones=Menu(boton_archivo,tearoff=0)
         boton_archivo["menu"]=opciones
         opciones.add_command(label="Abrir", font=("Verdana", 13), activeforeground='black', command=self.buscar_archivo)
         opciones.add_command(label="Guardar", font=("Verdana", 13),  activeforeground='black', command=self.guardar_archivo)
         opciones.add_command(label="Guardar Como", font=("Verdana", 13),  activeforeground='black', command=self.guardar_como)
         opciones.add_command(label="Salir", font=("Verdana", 13), activeforeground='black', command=self.salir)
-
+        #Botones
         boton_analizar=tk.Button(opciones_frame,text="Analizar", bg='#4a6eb0', font=("Verdana", 13), bd=0, fg='white', activeforeground='black', command=self.analizar)
         boton_analizar.place(x=250, y=10, width=150)
-
         boton_errores=tk.Button(opciones_frame,text="Errores", bg='#4a6eb0', font=("Verdana", 13), bd=0, fg='white', activeforeground='black', command=self.errores)
         boton_errores.place(x=450,y=10, width=150)
-
         boton_reporte=tk.Button(opciones_frame,text="Reporte", bg='#4a6eb0', font=("Verdana", 13), bd=0, fg='white', activeforeground='black', command=self.reporte)
         boton_reporte.place(x=650, y=10, width=150)
-
+        #Configuraciones Frame
         opciones_frame.pack(pady=0)
         opciones_frame.pack_propagate()
         opciones_frame.configure(width=1000, height=50)
-        
         #Frame Cuadro De Texto
         cuadrotexto_frame=tk.Frame(root,bg='#0799b6')
         self.cuadroTexto = scrolledtext.ScrolledText(cuadrotexto_frame, font=("Verdana", 10), bg="white", width=110, height=33)
@@ -54,7 +48,6 @@ class ventana_principal:
         cuadrotexto_frame.pack(pady=5)
         cuadrotexto_frame.pack_propagate()
         cuadrotexto_frame.configure(width=900, height=550)
-
 
     def buscar_archivo(self):
         texto_archivo = ""

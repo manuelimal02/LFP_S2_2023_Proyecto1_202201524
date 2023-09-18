@@ -5,7 +5,6 @@ from clases_abstractas.numero import *
 from errores.generar_errores import *
 import os
 
-#PALABRAS RESERVADAS - LEXEMAS
 reserved = {
     'ROPERACIONES'      : 'operaciones',
     'ROPERACION'        : 'operacion',
