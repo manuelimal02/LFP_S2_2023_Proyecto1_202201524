@@ -1,28 +1,28 @@
-from instrucciones.aritmetica import *
-from instrucciones.trigonometrica import *
-from clases_abstractas.lexema import *
-from clases_abstractas.numero import *
-from errores.generar_errores import *
+from instrucciones.aritmetica import operaciones_aritmeticas
+from instrucciones.trigonometrica import operaciones_trigonometricas
+from clases_abstractas.lexema import Lexema
+from clases_abstractas.numero import Numero
+from errores.generar_errores import Errores
 import os
 
 reserved = {
-    'ROPERACIONES'      : 'operaciones',
-    'ROPERACION'        : 'operacion',
-    'RVALOR1'           : 'valor1',
-    'RVALOR2'           : 'valor2',
-    'RSUMA'             : 'suma',
-    'RRESTA'            : 'resta',
-    'RMULTIPLICACION'   : 'multiplicacion',
-    'RDIVISION'         : 'division',
-    'RPOTENCIA'         : 'potencia',
-    'RDIVISION'         : 'division',
-    'RPOTENCIA'         : 'potencia',
-    'RRAIZ'             : 'raiz',
-    'RINVERSO'          : 'inverso',
-    'RSENO'             : 'seno',
-    'RCOSENO'           : 'coseno',
-    'RTANGENTE'         : 'tangente',
-    'RMODULO'           : 'modulo',
+    'OPERACIONES'      : 'operaciones',
+    'OPERACION'        : 'operacion',
+    'VALOR1'           : 'valor1',
+    'VALOR2'           : 'valor2',
+    'SUMA'             : 'suma',
+    'RESTA'            : 'resta',
+    'MULTIPLICACION'   : 'multiplicacion',
+    'DIVISION'         : 'division',
+    'POTENCIA'         : 'potencia',
+    'DIVISION'         : 'division',
+    'POTENCIA'         : 'potencia',
+    'RAIZ'             : 'raiz',
+    'INVERSO'          : 'inverso',
+    'SENO'             : 'seno',
+    'COSENO'           : 'coseno',
+    'TANGENTE'         : 'tangente',
+    'MODULO'           : 'modulo',
     'COMA'              : ',',
     'PUNTO'             : '.',
     'DPUNTOS'           : ':',
@@ -30,10 +30,10 @@ reserved = {
     'CORD'              : ']',
     'LLAVEI'            : '{',
     'LLAVED'            : '}',
-    'DTEXTO'            : 'texto',
-    'DFONDO'            : 'fondo',
-    'DFUENTE'           : 'fuente',
-    'DFORMA'            : 'forma',
+    'TEXTO'            : 'texto',
+    'FONDO'            : 'fondo',
+    'FUENTE'           : 'fuente',
+    'FORMA'            : 'forma',
 }
 lexemas = list(reserved.values())
 
@@ -273,7 +273,7 @@ def configuracion_nodo(i, id, etiqueta, objeto):
         forma_nodo = "box"
     elif forma_nodo == "poligono" or forma_nodo == "polygon":
         forma_nodo = "polygon"
-    elif forma_nodo == "elipse" or forma_nodo == "polygon":
+    elif forma_nodo == "elipse" or forma_nodo == "ellipse":
         forma_nodo = "ellipse"
     elif forma_nodo == "triangulo" or forma_nodo == "triangle":
         forma_nodo = "triangle"
@@ -284,13 +284,12 @@ def configuracion_nodo(i, id, etiqueta, objeto):
     elif forma_nodo == "trapezoide" or forma_nodo == "trapezium":
         forma_nodo = "trapezium"
     else:
-        forma_nodo = "box"
+        forma_nodo = "circle"
     dot = ""
     if objeto:
         if type(objeto) == Numero:
             dot += f'nodo_{i}{id}{etiqueta}[label="{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
         if type(objeto) == operaciones_trigonometricas:
-            print(objeto.columna)
             dot += f'nodo_{i}{id}{etiqueta}[label="{objeto.tipo.lexema}\\n{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
             dot += configuracion_nodo(i, id+1, etiqueta+"_angulo", objeto.left)
             dot += f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_angulo;\n'

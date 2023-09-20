@@ -3,10 +3,8 @@ from tkinter import Menu
 from tkinter import messagebox
 from tkinter import filedialog
 from tkinter import scrolledtext
-from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from analizador import instruccion, realizar_operaciones, generar_grafica, limpiar_lista, crear_archivo_errores, limpiar_lista_errores, lexemas_grafico
-
 
 class ventana_principal:
     def __init__(self, root):
@@ -107,18 +105,18 @@ class ventana_principal:
     def analizar(self):
         limpiar_lista_errores()
         limpiar_lista()
-        try:
-            if self.archivo_seleccionado==True:
+        #try:
+        if self.archivo_seleccionado==True:
                 instruccion(self.texto)
                 lexemas_grafico()
                 realizar_operaciones()
                 messagebox.showinfo("Analizar", "Análisis Realizado Correctamente.")
                 self.archivo_analizado=True
-            else:
+        else:
                 messagebox.showwarning("Error", "No se ha seleccionado ningún archivo.")
-        except:
-            messagebox.showerror("Error", "Se ha producido un error.")
-            return
+        #except:
+            #messagebox.showerror("Error", "Se ha producido un error.")
+            #return
 
     def reporte(self):
         try:
