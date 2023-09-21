@@ -23,13 +23,13 @@ reserved = {
     'COSENO'           : 'coseno',
     'TANGENTE'         : 'tangente',
     'MODULO'           : 'modulo',
-    'COMA'              : ',',
-    'PUNTO'             : '.',
-    'DPUNTOS'           : ':',
-    'CORI'              : '[',
-    'CORD'              : ']',
-    'LLAVEI'            : '{',
-    'LLAVED'            : '}',
+    'COMA'             : ',',
+    'PUNTO'            : '.',
+    'DPUNTOS'          : ':',
+    'CORI'             : '[',
+    'CORD'             : ']',
+    'LLAVEI'           : '{',
+    'LLAVED'           : '}',
     'TEXTO'            : 'texto',
     'FONDO'            : 'fondo',
     'FUENTE'           : 'fuente',
@@ -51,101 +51,104 @@ instrucciones = []
 lista_errores = []
 lista_datos_graphviz = []
 
-
-def instruccion(cadena):
+def armar_instrucciones(cadena):
+    limpiar_lista_errores()
+    limpiar_lista()
     global n_linea
     global n_columna
     global lista_lexemas
-    lexema = ""
+    lexema = ''
     puntero = 0
+    #Se analiza el contenido del cuadro de texto. 
     while cadena:
         char = cadena[puntero]
         puntero += 1
-        if char == '\"':
+        #Al encontrar " se empieza a armar el lexema.
+        if char == '"':       
             lexema, cadena = armar_lexema(cadena[puntero:])
             if lexema and cadena:
                 n_columna += 1
-                l = Lexema(lexema, n_linea, n_columna)
+                #Se arma el lexema como clase
+                l = Lexema(lexema.lower(), n_linea, n_columna)
+                #Se agrega los lexemas a la lista_lexema
                 lista_lexemas.append(l)
-                n_columna += len(lexema)+1
+                n_columna += len(lexema) + 1
                 puntero = 0
+        #Al encontrar numero se empieza a armar el numero.
         elif char.isdigit():
             token, cadena = armar_numero(cadena)
             if token and cadena:
+                n_columna += 1
+                # Se arma el numero como clase
                 n = Numero(token, n_linea, n_columna)
+                #Se agrega los numeros a la lista_lexema
                 lista_lexemas.append(n)
-                n_columna += len(str(token))
+                n_columna += len(str(token)) + 1
                 puntero = 0
-        elif char == '-':
-            token, cadena = armar_numero(cadena)
-            if token and cadena:
-                n = Numero(token, n_linea, n_columna)
-                lista_lexemas.append(n)
-                n_columna += len(str(token))
-                puntero = 0
-        elif char == "[" or char == "]":
+        elif char == '[' or char == ']':
+            # Se arma el numero como clase
             c = Lexema(char, n_linea, n_columna)
-            n_columna += 1
             lista_lexemas.append(c)
             cadena = cadena[1:]
             puntero = 0
-        elif char == "\t":
-            cadena = cadena[4:]
+            n_columna += 1
+        elif char =="\t":
             n_columna += 4
+            cadena = cadena[4:]
             puntero = 0
         elif char == "\n":
             cadena = cadena[1:]
-            n_columna = 0
-            n_linea += 1
             puntero = 0
-        elif char == ' ' or char == '\r' or char == '{' or char == '}' or char == ',' or char == ':' or char == '.' :
-            cadena = cadena[1:]
+            n_linea += 1
+            n_columna = 1
+        elif char == ' ' or char == '\r' or char == '{' or char == '}' or char == ',' or char == '.' or char == ':':
             n_columna += 1
+            cadena = cadena[1:]
             puntero = 0
         else:
+            #Se agrega el lexema a la lista_errores
+            lista_errores.append(Errores(char, n_linea, n_columna))
             cadena = cadena[1:]
             puntero = 0
             n_columna += 1
-            lista_errores.append(Errores(char, n_linea, n_columna))
     return lista_lexemas
 
 def armar_lexema(cadena):
     global n_linea
     global n_columna
     global lista_lexemas
-    lexema = ""
-    puntero = ""
+    lexema = ''
+    puntero = ''
     for char in cadena:
         puntero += char
         if char == '\"':
-            return lexema, cadena[len(puntero):]
+            #Si encuentra una ", se termina de leer el token
+            return lexema, cadena[len(puntero):]    
         else:
-            lexema += char
+            #Se crea el Token
+            lexema += char   
     return None, None
 
 def armar_numero(cadena):
     numero = ''
     puntero = ''
-    is_decimal = False
-    isNegative = False
+    is_decimal =  False
     for char in cadena:
         puntero += char
-        if char == "-":
-            isNegative = True
-        if char == ".":
+        if char == '.':
             is_decimal = True
-        if char == '"' or char == ' ' or char == '\n' or char == '\t' or char == ']' or char == ',':
+        if char == '"' or char == ' ' or char == '\n' or char == '\t':
             if is_decimal:
                 return float(numero), cadena[len(puntero)-1:]
-            if isNegative:
-                return int(numero), cadena[len(puntero)-1:]
             else:
                 return int(numero), cadena[len(puntero)-1:]
         else:
-            numero += char
+            if char != ',':
+                #Si no es una "," se agrega al numero
+                numero += char
     return None, None
 
-def operar():
+def operar_cadenas():
     global lista_lexemas
     global instrucciones
     operacion = ''
@@ -158,18 +161,18 @@ def operar():
         elif lexema.operar(None) == 'valor1':
             n1 = lista_lexemas.pop(0)
             if n1.operar(None) == '[':
-                n1 = operar()
-        elif lexema.operar(None) == 'valor2':
+                n1 = operar_cadenas()
+        elif lexema.operar(None) ==  'valor2':
             n2 = lista_lexemas.pop(0)
             if n2.operar(None) == '[':
-                n2 = operar()
+                n2 = operar_cadenas()
         if operacion and n1 and n2:
             return operaciones_aritmeticas(n1, n2, operacion, f'Inicio: {operacion.getFila()}: {operacion.getColumna()}', f'Fin: {n2.getFila()}:{n2.getColumna()}')
-        elif operacion and n1 and (operacion.operar(None) == 'seno' or operacion.operar(None) == 'coseno' or operacion.operar(None) == 'tangente'):
+        elif operacion and n1 and (operacion.operar(None) == 'seno' or operacion.operar(None) == 'coseno' or operacion.operar(None) == 'tangente' or operacion.operar(None) == 'inverso'):
             return operaciones_trigonometricas(n1, operacion, f'Inicio: {operacion.getFila()}: {operacion.getColumna()}', f'Fin: {n1.getFila()}:{n1.getColumna()}')
     return None
 
-def lexemas_grafico():
+def lexema_grafico():
     global lista_lexemas
     for i in range(len(lista_lexemas)):
         lexema = lista_lexemas[i]
@@ -183,11 +186,10 @@ def lexemas_grafico():
             lista_datos_graphviz.append(lista_lexemas[i+1].operar(None))
 
 def realizar_operaciones():
+    lexema_grafico()
     global instrucciones
-    left = ""
-    right = ""
     while True:
-        operacion = operar()
+        operacion = operar_cadenas()
         if operacion:
             instrucciones.append(operacion)
         else:
@@ -195,24 +197,6 @@ def realizar_operaciones():
         for instruccion in instrucciones:
             instruccion.operar(None)
     return instrucciones
-
-def graficar():
-    titulo = lista_datos_graphviz[0]
-    dot = 'digraph grafo{\n'
-    for i in range(len(instrucciones)):
-        dot += configuracion_nodo(i, 0, '', instrucciones[i])
-    dot += f'''
-    labelloc = "t"
-    label = "{titulo}"
-    '''
-    dot += '}'
-    return dot
-
-def generar_grafica(nombre_grafica):
-    nombre = nombre_grafica+".dot"
-    with open(nombre, 'w') as f:
-        f.write(graficar())
-    os.system(f'dot -Tpdf {nombre} -o {nombre_grafica}.pdf')
 
 def limpiar_lista():
     instrucciones.clear()
@@ -285,21 +269,39 @@ def configuracion_nodo(i, id, etiqueta, objeto):
         forma_nodo = "trapezium"
     else:
         forma_nodo = "circle"
-    dot = ""
+    text_dot = ""
     if objeto:
         if type(objeto) == Numero:
-            dot += f'nodo_{i}{id}{etiqueta}[label="{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
+            text_dot = text_dot + f'nodo_{i}{id}{etiqueta}[label="{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
         if type(objeto) == operaciones_trigonometricas:
-            dot += f'nodo_{i}{id}{etiqueta}[label="{objeto.tipo.lexema}\\n{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
-            dot += configuracion_nodo(i, id+1, etiqueta+"_angulo", objeto.left)
-            dot += f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_angulo;\n'
+            text_dot = text_dot + f'nodo_{i}{id}{etiqueta}[label="{objeto.tipo.lexema}\\n{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
+            text_dot = text_dot + configuracion_nodo(i, id+1, etiqueta+"_angulo", objeto.left)
+            text_dot = text_dot + f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_angulo;\n'
         if type(objeto) ==  operaciones_aritmeticas:
-            dot += f'nodo_{i}{id}{etiqueta}[label="{objeto.tipo.lexema}\\n{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
-            dot += configuracion_nodo(i, id+1, etiqueta + "_left", objeto.left)
-            dot += f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_left;\n'
-            dot += configuracion_nodo(i, id+1, etiqueta+"_right", objeto.right)
-            dot += f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_right;\n'
-    return dot
+            text_dot = text_dot + f'nodo_{i}{id}{etiqueta}[label="{objeto.tipo.lexema}\\n{objeto.operar(None)}",fontcolor="{color_fuente_nodo}",fillcolor={color_fondo_nodo}, style=filled,shape={forma_nodo}];\n'
+            text_dot = text_dot + configuracion_nodo(i, id+1, etiqueta + "_left", objeto.left)
+            text_dot = text_dot +f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_left;\n'
+            text_dot = text_dot +configuracion_nodo(i, id+1, etiqueta+"_right", objeto.right)
+            text_dot = text_dot + f'nodo_{i}{id}{etiqueta} -> nodo_{i}{id+1}{etiqueta}_right;\n'
+    return text_dot
+
+def graficar():
+    titulo = lista_datos_graphviz[0]
+    text_dot = 'digraph grafo{\n'
+    for i in range(len(instrucciones)):
+        text_dot = text_dot + configuracion_nodo(i, 0, '', instrucciones[i])
+    text_dot = text_dot +  f'''
+    labelloc = "t"
+    label = "{titulo}"
+    '''
+    text_dot = text_dot +  '}'
+    return text_dot
+
+def generar_grafica():
+    nombre = "REPORTE_202201524"+".dot"
+    with open(nombre, 'w') as f:
+        f.write(graficar())
+    os.system(f'dot -Tpdf {nombre} -o {"REPORTE_202201524"}.pdf')
 
 def obtener_errores():
     global lista_errores

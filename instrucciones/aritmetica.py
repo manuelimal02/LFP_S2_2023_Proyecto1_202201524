@@ -18,28 +18,32 @@ class operaciones_aritmeticas(Expresion):
 
         if self.tipo.operar(arbol) == 'suma':
             resultado = valor_izquierdo+valor_derecho
+            resultado = round(resultado, 3)
             return resultado
         elif self.tipo.operar(arbol) == 'resta':
             resultado = valor_izquierdo - valor_derecho
+            resultado = round(resultado, 3)
             return resultado
         elif self.tipo.operar(arbol) == 'multiplicacion':
             resultado = valor_izquierdo * valor_derecho
+            resultado = round(resultado, 3)
             return resultado
         elif self.tipo.operar(arbol) == 'division':
             resultado = valor_izquierdo / valor_derecho
+            resultado = round(resultado, 3)
             return resultado
-        elif self.tipo.operar(arbol) == 'modulo':
+        elif self.tipo.operar(arbol) == 'mod':
             resultado = valor_izquierdo % valor_derecho
+            resultado = round(resultado, 3)
             return resultado
         elif self.tipo.operar(arbol) == 'potencia':
             resultado = valor_izquierdo ** valor_derecho
+            resultado = round(resultado, 3)
             return resultado
         elif self.tipo.operar(arbol) == 'raiz':
             resultado = valor_izquierdo ** (1/valor_derecho)
-            return resultado
-        elif self.tipo.operar(arbol) == 'inverso':
-            resultado = 1/valor_izquierdo
-            return resultado
+            resultado = round(resultado, 3)
+            return resultado   
         else:
             return None
 

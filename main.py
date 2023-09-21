@@ -4,8 +4,7 @@ from tkinter import messagebox
 from tkinter import filedialog
 from tkinter import scrolledtext
 from tkinter.filedialog import asksaveasfilename
-from analizador import instruccion, realizar_operaciones, generar_grafica, limpiar_lista, crear_archivo_errores, limpiar_lista_errores, lexemas_grafico
-
+from analizador import armar_instrucciones, realizar_operaciones, generar_grafica, crear_archivo_errores
 class ventana_principal:
     def __init__(self, root):
         #Variable Analizado
@@ -47,6 +46,7 @@ class ventana_principal:
         cuadrotexto_frame.pack_propagate()
         cuadrotexto_frame.configure(width=900, height=550)
 
+
     def buscar_archivo(self):
         texto_archivo = ""
         ruta = tk.Tk()
@@ -61,10 +61,11 @@ class ventana_principal:
             self.cuadroTexto.insert(1.0, self.texto)
             messagebox.showinfo("Abrir", "Archivo Cargado Correctamente.")
             self.archivo_seleccionado=True
-        except:
-            messagebox.showerror("Error", "No se ha seleccionado ningún archivo.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se ha seleccionado ningún archivo: {str(e)}")
             return
-    
+
+
     def guardar_archivo(self):
         try:
             if self.archivo_seleccionado==True:
@@ -75,9 +76,10 @@ class ventana_principal:
             else:
                 messagebox.showwarning("Error", "No se ha seleccionado ningún archivo.")
             return
-        except:
-            messagebox.showerror("Error", "No se ha seleccionado ningún archivo.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se ha seleccionado ningún archivo: {str(e)}")
             return
+
 
     def guardar_como(self):
         try:
@@ -90,44 +92,42 @@ class ventana_principal:
             else:
                 messagebox.showwarning("Error", "No se ha seleccionado ningún archivo.")
             return
-        except:
-            messagebox.showerror("Error", "No se ha seleccionado ningún archivo.")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se ha seleccionado ningún archivo: {str(e)}")
             return
+
 
     def salir(self):
         try:
             messagebox.showinfo("Salir", "Gracias por utilizar el programa.")
             self.root.destroy()
-        except:
-            messagebox.showerror("Error", "Se ha producido un error.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Se ha producido un error.: {str(e)}")
 
 
     def analizar(self):
-        limpiar_lista_errores()
-        limpiar_lista()
-        #try:
-        if self.archivo_seleccionado==True:
-                instruccion(self.texto)
-                lexemas_grafico()
+        try:
+            if self.archivo_seleccionado==True:
+                armar_instrucciones(self.texto)
                 realizar_operaciones()
                 messagebox.showinfo("Analizar", "Análisis Realizado Correctamente.")
                 self.archivo_analizado=True
-        else:
+            else:
                 messagebox.showwarning("Error", "No se ha seleccionado ningún archivo.")
-        #except:
-            #messagebox.showerror("Error", "Se ha producido un error.")
-            #return
+        except Exception as e:
+            messagebox.showerror("Error", f"Se ha producido un error.: {str(e)}")
+
 
     def reporte(self):
         try:
             if self.archivo_analizado==True:
-                generar_grafica(str("REPORTE_202201524"))
+                generar_grafica()
                 messagebox.showinfo("Reporte", "Reporte Creado Correctamente.")
             else:
                 messagebox.showerror("Error", "No se ha realizado el análisis de archivo.")
-        except:
-            messagebox.showerror("Error", "Se ha producido un error.")
-            return
+        except Exception as e:
+            messagebox.showerror("Error", f"Se ha producido un error.: {str(e)}")
+
 
     def errores(self):
         try:
@@ -136,9 +136,9 @@ class ventana_principal:
                 messagebox.showinfo("Errores", "Reporte de Errores Creado Correctamente.")
             else:
                 messagebox.showerror("Error", "No se ha realizado el análisis de archivo.")
-        except:
-            messagebox.showerror("Error","Se ha producido un error.")
-            return
+        except Exception as e:
+            messagebox.showerror("Error", f"Se ha producido un error.: {str(e)}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()

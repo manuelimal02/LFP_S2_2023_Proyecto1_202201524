@@ -25,6 +25,10 @@ class operaciones_trigonometricas(Expresion):
             resultado = math.tan(math.radians(valor_izquierdo))
             resultado = round(resultado, 2)
             return resultado
+        elif self.tipo.operar(arbol) == 'inverso':
+            resultado = 1/valor_izquierdo
+            resultado = round(resultado, 3)
+            return resultado
         else:
             return None
 
