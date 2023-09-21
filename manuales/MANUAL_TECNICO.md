@@ -26,7 +26,7 @@ La clase Errores es otra subclase de la clase abstracta Expresion. A diferencia 
 
 El método de operar toma un argumento “no”, que es el error encontrado en el archivo de entrada. Luego, crea una representación en formato JSON del error léxico, incluyendo el número de error (no), el lexema que causó el error, el tipo de error, la columna y la fila en la que ocurrió el error.
 
-<image src="https://i.ibb.co/TgdbR6c/generar-errores.png">
+<image src="https://i.ibb.co/4Sx6xD4/generar-errores.png">
 
 
 ## aritmetica.py
@@ -36,7 +36,7 @@ El constructor de la clase toma cinco parámetros: left, right, tipo, fila, y co
 
 El método operar implementa el método abstracto operar de la clase base Expresion. Realiza la operación aritmética basada en el tipo de operación proporcionado por la expresión tipo. Primero, obtiene los valores numéricos de las expresiones izquierda y derecha llamando a self.left.operar(arbol) y self.right.operar(arbol), respectivamente. Luego, realiza la operación aritmética correspondiente en función del valor devuelto por self.tipo.operar(arbol). El resultado de la operación se almacena en la variable resultado y se devuelve como resultado de la función operar.
 
-<image src="https://i.ibb.co/WHC3cKW/aritmetica.png">
+<image src="https://i.ibb.co/x21j9CV/aritmetica.png">
 
 
 ## trigonometrica.py
@@ -47,7 +47,7 @@ El constructor de la clase operaciones_trigonometricas toma tres parámetros: le
 
 El método operar implementa el método abstracto operar de la clase base Expresion. Realiza la operación trigonométrica basada en el tipo de operación proporcionado por la expresión tipo. Primero, obtiene el valor numérico de la expresión left llamando a self.left.operar(arbol). El resultado se asume que representa un ángulo en grados. Luego, verifica el tipo de operación trigonométrica proporcionada por self.tipo.operar(arbol) y calcula el resultado correspondiente utilizando las funciones trigonométricas del módulo math. Los resultados se redondean a dos decimales antes de ser devueltos.
 
-<image src="https://i.ibb.co/QJmDhN1/trigonometrica.png">
+<image src="https://i.ibb.co/DtG2CtV/trigonometrica.png">
 
 
 ## main.py
@@ -78,7 +78,7 @@ Esta función se llama cuando se hace clic en la opción "Abrir" del menú despl
 3.	Actualiza la variable self.texto con el contenido del archivo.
 4.	Establece la variable self.archivo_seleccionado en True para indicar que se ha seleccionado un archivo.
 
-<image src="https://i.ibb.co/7QfDGQ5/buscar-archivo.png">
+<image src="https://i.ibb.co/30Ghx2s/buscar-archivo.png">
 
 
 - ***Guardar_Archivo***
@@ -89,7 +89,7 @@ Esta función se llama cuando se hace clic en la opción "Guardar" del menú des
 2.	Obtiene el contenido del cuadro de texto (self.cuadroTexto).
 3.	Escribe el contenido en el archivo original seleccionado (self.ruta_seleccionada).
 
-<image src="https://i.ibb.co/QC50cVD/guardar-archivo.png">
+<image src="https://i.ibb.co/8s78c1D/guardar-archivo.png">
 
 
 - ***Guardar_Como***
@@ -101,14 +101,14 @@ Esta función se llama cuando se hace clic en la opción "Guardar Como" del men�
 3.	Abre un cuadro de diálogo para seleccionar la ubicación y el nombre del archivo en el que se guardará.
 4.	Escribe el contenido en el archivo seleccionado.
 
-<image src="https://i.ibb.co/SfLczm5/guardar-como.png">
+<image src="https://i.ibb.co/y0CV2Xm/guardar-como.png">
 
 
 - ***Salir***
 
 Esta función se llama cuando se hace clic en la opción "Salir" del menú desplegable de archivo. Muestra un mensaje de despedida y cierra la aplicación.
 
-<image src="https://i.ibb.co/3khK66P/salir.png">
+<image src="https://i.ibb.co/tHDJq0F/salir.png">
 
 
 - ***Analizar***
@@ -117,10 +117,10 @@ Esta función se llama cuando se hace clic en el botón "Analizar". Realiza lo s
 
 1.	Comprueba si se ha seleccionado un archivo (self.archivo_seleccionado es True).
 2.	Llama a la función instruccion con el contenido del archivo para analizar el archivo JSON.
-3.	Llama a otras funciones para realizar operaciones específicas (lexema_grafico y realizar_operaciones).
+3.	Llama a otras funciones para realizar operaciones específicas (realizar_operaciones).
 4.	Muestra un mensaje de información si el análisis se realiza correctamente.
 
-<image src="https://i.ibb.co/M1QG8Z0/analizar.png">
+<image src="https://i.ibb.co/FDbXMRY/analizar.png">
 
 
 - ***Reporte***
@@ -131,7 +131,7 @@ Esta función se llama cuando se hace clic en el botón "Reporte". Realiza lo si
 2.	Llama a la función generar_grafica para crear un reporte gráfico.
 3.	Muestra un mensaje de información si el reporte se crea correctamente.
 
-<image src="https://i.ibb.co/VpCNxmH/reporte.png">
+<image src="https://i.ibb.co/nmKFdgW/reporte.png">
 
 
 - ***Errores***
@@ -142,7 +142,7 @@ Esta función se llama cuando se hace clic en el botón "Errores". Realiza lo si
 2.	Llama a la función crear_archivo_errores para crear un informe de errores.
 3.	Muestra un mensaje de información si el informe de errores se crea correctamente.
 
-<image src="https://i.ibb.co/wsh7DHh/errores.png">
+<image src="https://i.ibb.co/qWMG44G/erorres.png">
 
 
 ## analizador.py
@@ -155,10 +155,10 @@ El archivo analizador contiene una serie de funciones que son utilizadas para el
 
 - Variables globales: Se definen varias variables globales, como n_linea, n_columna, lista_lexemas, instrucciones, lista_errores, y lista_datos_graphviz. Estas variables se utilizan para realizar un seguimiento de la posición en el código fuente, almacenar lexemas, instrucciones y errores, y recopilar información para la generación de gráficos.
 
-<image src="https://i.ibb.co/2nyC5hF/analizador.png">
+<image src="https://i.ibb.co/0th1bd0/analizador.png">
 
 
-- ***instruccion***
+- ***armar_instrucciones***
 
 Esta función realiza el análisis léxico del código fuente representado como una cadena. Itera sobre la cadena de entrada y reconoce lexemas, números y otros elementos, construyendo una lista de lexemas.
 
@@ -166,7 +166,7 @@ Esta función realiza el análisis léxico del código fuente representado como 
 2.	Reconoce lexemas, números y caracteres especiales, como comillas, corchetes, tabulaciones y saltos de línea.
 3.	Almacena los lexemas reconocidos en la lista lista_lexemas.
 
-<image src="https://i.ibb.co/T4qDpqF/instruccion.png">
+<image src="https://i.ibb.co/w0bQtRF/armar-instrucciones.png">
 
 
 - ***armar_lexema***
@@ -176,7 +176,7 @@ Esta función se utiliza para extraer un lexema entre comillas dobles dentro de 
 1.	Itera sobre la cadena de entrada.
 2.	Cuando encuentra una comilla doble, devuelve el lexema dentro de las comillas y la cadena restante después del lexema.
 
-<image src="https://i.ibb.co/GJcmSqp/armar-lexema.png">
+<image src="https://i.ibb.co/VqY8xts/armar-lexema.png">
 
 
 - ***armar_numero***
@@ -186,10 +186,10 @@ Esta función se utiliza para extraer números de la cadena, incluyendo números
 1.	Itera sobre la cadena de entrada.
 2.	Cuando encuentra un carácter que no es parte de un número válido, devuelve el número extraído y la cadena restante después del número.
 
-<image src="https://i.ibb.co/gRg0vLq/armar-numero.png">
+<image src="https://i.ibb.co/rmTyNQ4/armar-numero.png">
 
 
-- ***operar***
+- ***operar_cadena***
 
 Esta función realiza análisis sintáctico para construir un árbol de expresiones a partir de los lexemas almacenados en lista_lexemas.
 
@@ -197,7 +197,7 @@ Esta función realiza análisis sintáctico para construir un árbol de expresio
 2.	Reconoce operadores aritméticos y trigonométricos, así como valores numéricos.
 3.	Construye y retorna árboles de expresiones que representan las operaciones reconocidas.
 
-<image src="https://i.ibb.co/pvsVr71/operar.png">
+<image src="https://i.ibb.co/mty2H50/operar-cadena.png">
 
 
 - ***lexemas_grafico***
@@ -217,7 +217,7 @@ Esta función realiza las operaciones aritméticas y trigonométricas previament
 1.	Itera sobre las instrucciones previamente construidas y realiza las operaciones correspondientes.
 2.	Almacena los resultados de las operaciones en instrucciones.
 
-<image src="https://i.ibb.co/vQcdY8Y/realizar-operaciones.png">
+<image src="https://i.ibb.co/xsgyVN5/realizar-operaciones.png">
 
 
 - ***graficar***
@@ -227,7 +227,7 @@ Esta función genera un código en formato DOT (utilizado por Graphviz) para cre
 1.	Itera sobre las instrucciones y los formatos de gráficos para generar el código DOT necesario para crear un gráfico.
 2.	Incluye etiquetas, colores, formas y conexiones entre nodos.
 
-<image src="https://i.ibb.co/Bzshpxw/graficar.png">
+<image src="https://i.ibb.co/HdJR07s/graficar.png">
 
 
 - ***generar_grafica***
@@ -260,8 +260,8 @@ Esta función se utiliza para configurar nodos en el código DOT de Graphviz, de
 1.	Configura los nodos con etiquetas, colores de fondo y fuente, formas y conexiones según el tipo de objeto proporcionado (Número o expresión aritmética/trigonométrica).
 2.	La función se llama recursivamente para manejar subnodos en el árbol de expresiones.
 
-<image src="https://i.ibb.co/b7JgzhV/configuracion-nodo-1.png">
-<image src="https://i.ibb.co/Pt86h93/configuracion-nodo-2.png">
+<image src="https://i.ibb.co/DVJjrFN/configuraciones-nodo1.png">
+<image src="https://i.ibb.co/4JXp0Pd/configuraciones-nodo2.png">
 
 
 - ***obtener_errores***
